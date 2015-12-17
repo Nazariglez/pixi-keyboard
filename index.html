@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pixi.js Test</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/3.0.8/pixi.js"></script>
+  <script src="build/pixi-keyboard.js"></script>
+</head>
+<body>
+  <script>
+    var renderer = new PIXI.autoDetectRenderer(800,600);
+    document.body.appendChild(renderer.view);
+
+    var ctrl = PIXI.keyboard.getHotKey(PIXI.Key.CTRL);
+
+    function animate(){
+      window.requestAnimationFrame(animate);
+
+      PIXI.keyboard.update();
+
+      var keyCheck = ctrl.isPressed || ctrl.isReleased || ctrl.isDown;
+      if(keyCheck){
+        console.log('Pressed:', ctrl.isPressed, '\nDown:', ctrl.isDown, '\nReleased:',ctrl.isReleased);
+      }
+    }
+
+    animate();
+  </script>
+</body>
+</html>
