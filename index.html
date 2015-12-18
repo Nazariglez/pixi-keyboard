@@ -16,12 +16,11 @@
     function animate(){
       window.requestAnimationFrame(animate);
 
-      PIXI.keyboard.update();
-
       var keyCheck = ctrl.isPressed || ctrl.isReleased || ctrl.isDown;
       if(keyCheck){
         console.log('Pressed:', ctrl.isPressed, '\nDown:', ctrl.isDown, '\nReleased:',ctrl.isReleased);
       }
+      PIXI.keyboard.update();
     }
 
     animate();

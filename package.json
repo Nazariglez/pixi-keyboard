@@ -1,6 +1,6 @@
 {
   "name": "pixi-keyboard",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "pixi-keyboard is a plugin for Pixi.js v3 or higher to manage the keyboard events easily.",
   "main": "./build/pixi-keyboard.js",
   "author": "Nazariglez <nazari.nz@gmail.com> (http://www.nazariglez.com)",
