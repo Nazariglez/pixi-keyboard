@@ -153,4 +153,4 @@ Return if the alt key is down
 Remove this HotKey from the KeyboardManager
 
 ##KEY names
-All keyCode has an name as alias, you can see it (here)[https://github.com/Nazariglez/pixi-keyboard/blob/master/src/Key.js]
+All keyCode has an name as alias, you can see it [here](https://github.com/Nazariglez/pixi-keyboard/blob/master/src/Key.js).
