@@ -1,7 +1,9 @@
+import PIXI from 'pixi.js';
 import HotKey from './HotKey';
 
-export default class KeyboardManager {
+export default class KeyboardManager extends PIXI.utils.EventEmitter {
   constructor(){
+    super();
     this.isEnabled = false;
     this._pressedKeys = [];
     this._releasedKeys = [];
@@ -9,12 +11,6 @@ export default class KeyboardManager {
 
     this._hotKeys = [];
     this._preventDefaultKeys = [];
-
-    this._callbacks = {
-      down:[],
-      pressed:[],
-      released:[]
-    };
   }
 
   enable(){
@@ -60,11 +56,7 @@ export default class KeyboardManager {
     if(!this.isDown(key)){
       this._downKeys.push(key);
       this._pressedKeys[key] = true;
-
-      let len = this._callbacks.pressed.length;
-      for(let i = 0; i < len; i++){
-        this._callbacks.pressed[i](key);
-      }
+      this.emit('pressed', key);
     }
   }
 
@@ -80,11 +72,7 @@ export default class KeyboardManager {
 
       let _index = this._downKeys.indexOf(key);
       if(_index !== -1)this._downKeys.splice(_index, 1);
-
-      let len = this._callbacks.released.length;
-      for(let i = 0; i < len; i++){
-        this._callbacks.released[i](key);
-      }
+      this.emit('released', key);
     }
   }
 
@@ -105,35 +93,12 @@ export default class KeyboardManager {
       this._hotKeys[key].update();
     }
 
-    let len = this._callbacks.down.length;
-    for(let i = 0; i < len; i++){
-      for(let n = 0; n < this._downKeys.length; n++){
-        this._callbacks.down[i](this._downKeys[n]);
-      }
+    for(let n = 0; n < this._downKeys.length; n++){
+      this.emit('down', this._downKeys[n]);
     }
 
     this._pressedKeys.length = 0;
     this._releasedKeys.length = 0;
-  }
-
-  addCallback(state, cb){
-    let allowedStates = Object.keys(this._callbacks);
-    if(allowedStates.indexOf(state) !== -1){
-      let _index = this._callbacks[state].indexOf(cb);
-      if(_index === -1)this._callbacks[state].push(cb);
-    }else{
-      console.error('State names for keyboard callback should be one of these: ' + allowedStates.join(","));
-    }
-  }
-
-  removeCallback(state, cb){
-    let allowedStates = Object.keys(this._callbacks);
-    if(allowedStates.indexOf(state) !== -1){
-      let _index = this._callbacks[state].indexOf(cb);
-      if(_index !== -1)this._callbacks[state].splice(_index, 1);
-    }else{
-      console.error('State names for keyboard callback should be one of these: ' + allowedStates.join(","));
-    }
   }
 
   getHotKey(key){

@@ -10,20 +10,106 @@
   <script>
     var renderer = new PIXI.autoDetectRenderer(800,600);
     document.body.appendChild(renderer.view);
-
-    var ctrl = PIXI.keyboard.getHotKey(PIXI.Key.CTRL);
+    var stage = new PIXI.Container();
 
     function animate(){
       window.requestAnimationFrame(animate);
-
-      var keyCheck = ctrl.isPressed || ctrl.isReleased || ctrl.isDown;
-      if(keyCheck){
-        console.log('Pressed:', ctrl.isPressed, '\nDown:', ctrl.isDown, '\nReleased:',ctrl.isReleased);
-      }
+      renderer.render(stage);
       PIXI.keyboard.update();
     }
 
+    var text = new PIXI.Text("Text: ", {
+      fill: "#ffffff",
+      wordWrap: true,
+      wordWrapWidth: 780,
+      font: "14px Arial"
+    });
+    text.position.set(10,10);
+    stage.addChild(text);
+
+    PIXI.keyboard.on('pressed', onPressed);
+    PIXI.keyboard.on('down', onDown);
+    PIXI.keyboard.setPreventDefault(PIXI.Key.BACKSPACE);
+
     animate();
+
+    var ALLOWED_KEYS = [
+      PIXI.Key._0,
+      PIXI.Key._1,
+      PIXI.Key._2,
+      PIXI.Key._3,
+      PIXI.Key._4,
+      PIXI.Key._5,
+      PIXI.Key._6,
+      PIXI.Key._7,
+      PIXI.Key._8,
+      PIXI.Key._9,
+      PIXI.Key.NUM_0,
+      PIXI.Key.NUM_1,
+      PIXI.Key.NUM_2,
+      PIXI.Key.NUM_3,
+      PIXI.Key.NUM_4,
+      PIXI.Key.NUM_5,
+      PIXI.Key.NUM_6,
+      PIXI.Key.NUM_7,
+      PIXI.Key.NUM_8,
+      PIXI.Key.NUM_9,
+      PIXI.Key.NUM_10,
+      PIXI.Key.A,
+      PIXI.Key.B,
+      PIXI.Key.C,
+      PIXI.Key.D,
+      PIXI.Key.E,
+      PIXI.Key.F,
+      PIXI.Key.G,
+      PIXI.Key.H,
+      PIXI.Key.I,
+      PIXI.Key.J,
+      PIXI.Key.K,
+      PIXI.Key.L,
+      PIXI.Key.M,
+      PIXI.Key.N,
+      PIXI.Key.O,
+      PIXI.Key.P,
+      PIXI.Key.Q,
+      PIXI.Key.R,
+      PIXI.Key.S,
+      PIXI.Key.T,
+      PIXI.Key.U,
+      PIXI.Key.V,
+      PIXI.Key.W,
+      PIXI.Key.X,
+      PIXI.Key.Y,
+      PIXI.Key.Z,
+      PIXI.Key.SPACE,
+      PIXI.Key.COMMA,
+      PIXI.Key.PERIOD
+    ];
+
+    var SPECIALS = {
+      SPACE : " ",
+      COMMA : ",",
+      PERIOD : "."
+    };
+
+    function onPressed(key){
+      if(ALLOWED_KEYS.indexOf(key) === -1)return;
+
+      var caps = ( this.isDown(PIXI.Key.CAPS_LOCK) || this.isDown(PIXI.Key.SHIFT) );
+      for(var k in PIXI.Key){
+        if(PIXI.Key[k] === key){
+          var chr = (SPECIALS[k]) ? SPECIALS[k] : (caps) ? k : (k).toLowerCase();
+          text.text += chr;
+          break;
+        }
+      }
+    }
+
+    function onDown(key){
+      if(key === PIXI.Key.BACKSPACE){
+        text.text = text.text.substr(0, text.text.length -1);
+      }
+    }
   </script>
 </body>
 </html>

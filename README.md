@@ -1,7 +1,7 @@
 pixi-keyboard
 ======================
 
-pixi-keyboard is a plugin for Pixi.js v3 or higher to manage the keyboard events easily.
+pixi-keyboard is a plugin for Pixi.js v3.0.8 or higher to manage the keyboard events easily.
 
 ## Installation
 ```
@@ -19,10 +19,11 @@ var keyboard = require('pixi-keyboard'); //pixi-keyboard is added automatically 
 //create PIXI renderer
 var renderer = new PIXI.autoDetectRenderer(800,600);
 document.body.appendChild(renderer.view);
+var stage = new PIXI.Container();
 
 function animate(){
   window.requestAnimationFrame(animate);
-
+  renderer.render(stage);
   //add to your raf the keyboard update
   PIXI.keyboard.update();
 }
@@ -34,10 +35,11 @@ animate();
 ```js
 var renderer = new PIXI.autoDetectRenderer(800,600);
 document.body.appendChild(renderer.view);
+var stage = new PIXI.Container();
 
 function animate(){
   window.requestAnimationFrame(animate);
-
+  renderer.render(stage);
   //add to your raf the keyboard update
   PIXI.keyboard.update();
 }
@@ -47,17 +49,21 @@ animate();
 ### How it works
 This plugin add 3 new classes (KeyboardManager, Key and HotKey) to the PIXI namespace, and create an instance for KeyboardManager in PIXI.keyboard, but you don't need worry about that, all you need is add PIXI.keyboard.update() in the end of your requestAnimationFrame or [AnimationLoop](https://github.com/Nazariglez/pixi-animationloop/).
 
-### Listen pressed, down, and released events for any key.
+### Events
+KeyboardManager extends from [PIXI.utils.EventEmitter](https://github.com/primus/eventemitter3), and emit three events: pressed, down and released. All these events has as param the keyCode. More info: [Node.js Events](https://nodejs.org/api/events.html#events_emitter_emit_event_arg1_arg2)
 ```js
-PIXI.keyboard.addCallback('down', function(key){
+PIXI.keyboard.on('down', function(key){
+  //If a key is down
   console.log('Key down:' + key);
 });
 
-PIXI.keyboard.addCallback('pressed', function(key){
+PIXI.keyboard.on('pressed', function(key){
+  //If a key was pressed
   console.log('Key pressed:' + key);
 });
 
-PIXI.keyboard.addCallback('released', function(key){
+PIXI.keyboard.on('released', function(key){
+  //If a key was released
   console.log('Key released:' + key);
 });
 ```
@@ -112,7 +118,7 @@ Listen keyboard events
 #### .disable()
 Do not listen keyboard events
 #### .setPreventDefault(key [, value])
-Avoid the default behavior when a key is touched, useful for arrows, to avoid the page make scroll. Value it's a boolean (default=true)
+Avoid the default behavior when a key is touched, useful for arrows, to prevent the page's scroll or back. Value it's a boolean (default=true)
 #### .isDown( key )
 Return if the key is down
 #### .isPressed( key )
@@ -121,10 +127,6 @@ Return if the key was pressed
 Return if the key was released
 #### .update()
 Update method, add to your RAF or AnimationLoop
-#### .addCallback( state, callback )
-Listen the states of any keys, the callback receive the keyCode as parameter
-#### .removeCallback( state, callback )
-Remove a callback from a state
 #### .getHoyKey( key )
 Return a HotKey
 #### .removeHotKey( key )
