@@ -127,7 +127,7 @@ Return if the key was pressed
 Return if the key was released
 #### .update()
 Update method, add to your RAF or AnimationLoop
-#### .getHoyKey( key )
+#### .getHotKey( key )
 Return a HotKey
 #### .removeHotKey( key )
 Remove a hotKey
