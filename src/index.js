@@ -3,13 +3,17 @@ import KeyboardManager from './KeyboardManager';
 import HotKey from './HotKey';
 import Key from './Key';
 
-if(!PIXI.KeyboardManager){
-  let keyboard = new KeyboardManager();
-  keyboard.enable();
+let keyboard = {
+  KeyboardManager: KeyboardManager,
+  Key: Key,
+  HotKey: HotKey
+};
 
-  PIXI.KeyboardManager = KeyboardManager;
-  PIXI.Key = Key;
-  PIXI.HotKey = HotKey;
+if(!PIXI.keyboard){
+  let keyboardManager = new KeyboardManager();
+  keyboardManager.enable();
+
   PIXI.keyboard = keyboard;
+  PIXI.keyboardManager = keyboardManager;
 }
-export default PIXI.keyboard;
+export default keyboard;

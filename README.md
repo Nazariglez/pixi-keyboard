@@ -25,7 +25,7 @@ function animate(){
   window.requestAnimationFrame(animate);
   renderer.render(stage);
   //add to your raf the keyboard update
-  PIXI.keyboard.update();
+  PIXI.keyboardManager.update();
 }
 animate();
 ```
@@ -41,28 +41,28 @@ function animate(){
   window.requestAnimationFrame(animate);
   renderer.render(stage);
   //add to your raf the keyboard update
-  PIXI.keyboard.update();
+  PIXI.keyboardManager.update();
 }
 animate();
 ```
 
 ### How it works
-This plugin add 3 new classes (KeyboardManager, Key and HotKey) to the PIXI namespace, and create an instance for KeyboardManager in PIXI.keyboard, but you don't need worry about that, all you need is add PIXI.keyboard.update() in the end of your requestAnimationFrame or [AnimationLoop](https://github.com/Nazariglez/pixi-animationloop/).
+This plugin add a new namespace named `keyboard` with 3 new classes (KeyboardManager, Key and HotKey) to the PIXI namespace, and create an instance for KeyboardManager in PIXI.keyboardManager, but you don't need worry about that, all you need is add PIXI.keyboardManager.update() in the end of your requestAnimationFrame or [AnimationLoop](https://github.com/Nazariglez/pixi-animationloop/).
 
 ### Events
 KeyboardManager extends from [PIXI.utils.EventEmitter](https://github.com/primus/eventemitter3), and emit three events: pressed, down and released. All these events has as param the keyCode. More info: [Node.js Events](https://nodejs.org/api/events.html#events_emitter_emit_event_arg1_arg2)
 ```js
-PIXI.keyboard.on('down', function(key){
+PIXI.keyboardManager.on('down', function(key){
   //If a key is down
   console.log('Key down:' + key);
 });
 
-PIXI.keyboard.on('pressed', function(key){
+PIXI.keyboardManager.on('pressed', function(key){
   //If a key was pressed
   console.log('Key pressed:' + key);
 });
 
-PIXI.keyboard.on('released', function(key){
+PIXI.keyboardManager.on('released', function(key){
   //If a key was released
   console.log('Key released:' + key);
 });
@@ -70,23 +70,23 @@ PIXI.keyboard.on('released', function(key){
 
 ### Check the state for one key
 ```js
-if(PIXI.keyboard.isPressed(PIXI.Key.CTRL)){
+if(PIXI.keyboardManager.isPressed(PIXI.Key.CTRL)){
   console.log('Control key is pressed');
 }
 
-if(PIXI.keyboard.isDown(PIXI.Key.CTRL)){
+if(PIXI.keyboardManager.isDown(PIXI.Key.CTRL)){
   console.log('Control key is down');
 }
 
-if(PIXI.keyboard.isReleased(PIXI.Key.CTRL)){
+if(PIXI.keyboardManager.isReleased(PIXI.Key.CTRL)){
   console.log('Control key is released');
 }
 ```
 
 ### Using HotKeys
 ```js
-var shoot = PIXI.keyboard.getHotKey(PIXI.Key.SPACE);
-var reload = PIXI.keyboard.getHotKey(PIXI.Key.R);
+var shoot = PIXI.keyboardManager.getHotKey(PIXI.Key.SPACE);
+var reload = PIXI.keyboardManager.getHotKey(PIXI.Key.R);
 
 function animate(){
   window.requestAnimationFrame(animate);
@@ -103,7 +103,7 @@ function animate(){
     console.log('Reload my gun');
   }
 
-  PIXI.keyboard.update();
+  PIXI.keyboardManager.update();
 }
 animate();
 ```
