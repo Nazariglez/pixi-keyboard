@@ -1,49 +1,29 @@
-'use strict';
+const production = process.env.NODE_ENV === "production";
+const path = require("path");
 
-var webpack = require('webpack');
-var path = require('path');
+const distPath = path.resolve(__dirname, "./build");
 
-var PLUGIN_NAME = require('./package.json').name;
-var DEV = process.env.NODE_ENV !== "production";
-var ENTRY = ['./src/index.js'];
-var EXTERNALS = {};
-
-if(DEV){
-	ENTRY.unshift('pixi.js');
-}else{
-	EXTERNALS['pixi.js'] = "PIXI";
-}
-
-module.exports = {
-	devtool: 'source-map',
-	entry: ENTRY,
+let config = {
+	mode: "development",
+	devtool: "source-map",
+	entry: ["./src/main.ts"],
 	output: {
-		filename: 'build/' + PLUGIN_NAME + '.js'
+		path: distPath,
+		filename: "pixi-keyboard.js",
+		library: "keyboard"
 	},
-  resolve: {
-    extensions: ["", ".js"]
-  },
-  externals : EXTERNALS,
+	resolve: {
+		extensions: [".ts", ".tsx", ".js"]
+	},
 	module: {
-    postLoaders: [
-      {
-        loader: "transform?brfs"
-      }
-    ],
-		loaders: [
-			{
-				test: /\.json$/,
-				include: path.join(__dirname, 'node_modules', 'pixi.js'),
-				loader: 'json',
-			},
-			{
-				test: /\.js$/,
-				exclude: path.join(__dirname, 'node_modules'),
-				loader: 'babel-loader',
-        query: {
-          presets: ['es2015','stage-0']
-        }
-			}
+		rules: [
+			{ test: /\.tsx?$/, loader: "ts-loader" }
 		]
-	}
+	},
+	externals: [{
+		"pixi.js": "PIXI"
+	}],
+	mode: production ? "production" : "development",
 };
+
+module.exports = config;
