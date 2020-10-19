@@ -1,7 +1,7 @@
 pixi-keyboard
 ======================
 
-pixi-keyboard is a plugin for Pixi.js v3.0.8 or higher to manage the keyboard events easily.
+pixi-keyboard is a plugin for Pixi.js to manage the keyboard events easily.
 
 ## Installation
 ```
@@ -9,44 +9,18 @@ npm install pixi-keyboard
 ```
 
 ## Usage
-### Browserify - Webpack
-If you use Browserify or Webpack you can use pixi-keyboard like this:
 
 ```js
-var PIXI = require('pixi.js');
-var keyboard = require('pixi-keyboard'); //pixi-keyboard is added automatically to the PIXI namespace
+import * as PIXI from 'pixi.js';
+import 'pixi-keyboard'; // side effect import
 
-//create PIXI renderer
-var renderer = new PIXI.autoDetectRenderer(800,600);
-document.body.appendChild(renderer.view);
-var stage = new PIXI.Container();
-
-function animate(){
-  window.requestAnimationFrame(animate);
-  renderer.render(stage);
-  //add to your raf the keyboard update
-  PIXI.keyboardManager.update();
-}
-animate();
+// animationFrame...
+// Update the keyboards events at the end of your request animation frame or your set interval.
+PIXI.keyboardManager.update(delta);
+// ...endsOfAnimationFrame
 ```
 
-### Prebuilt files
-
-```js
-var renderer = new PIXI.autoDetectRenderer(800,600);
-document.body.appendChild(renderer.view);
-var stage = new PIXI.Container();
-
-function animate(){
-  window.requestAnimationFrame(animate);
-  renderer.render(stage);
-  //add to your raf the keyboard update
-  PIXI.keyboardManager.update();
-}
-animate();
-```
-
-### How it works
+##How it works
 This plugin add a new namespace named `keyboard` with 3 new classes (KeyboardManager, Key and HotKey) to the PIXI namespace, and create an instance for KeyboardManager in PIXI.keyboardManager, but you don't need worry about that, all you need is add PIXI.keyboardManager.update() in the end of your requestAnimationFrame or [AnimationLoop](https://github.com/Nazariglez/pixi-animationloop/).
 
 ### Events
@@ -121,6 +95,8 @@ Do not listen keyboard events
 Avoid the default behavior when a key is touched, useful for arrows, to prevent the page's scroll or back. Value it's a boolean (default=true)
 #### .isDown( key )
 Return if the key is down
+#### .downTime( key )
+Returns time down in seconds
 #### .isPressed( key )
 Return if the key was pressed
 #### .isReleased( key )

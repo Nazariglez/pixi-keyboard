@@ -4,12 +4,12 @@ import Key from "./Key";
 
 export default class KeyboardManager extends PIXI.utils.EventEmitter {
   isEnabled: boolean = false;
-  private pressedKeys = [];
-  private releasedKeys = [];
-  private downKeys = [];
+  private pressedKeys:boolean[] = [];
+  private releasedKeys:boolean[] = [];
+  private downKeys:{[key: number]: number} = {};
 
-  private hotKeys = [];
-  private preventDefaultKeys = [];
+  private hotKeys:HotKey[] = [];
+  private preventDefaultKeys:boolean[] = [];
 
   constructor(){
     super();
@@ -51,13 +51,12 @@ export default class KeyboardManager extends PIXI.utils.EventEmitter {
 
   _onKeyDown(evt){
     let key = evt.which || evt.keyCode;
-    console.log(key);
     if(this.preventDefaultKeys[key]){
       evt.preventDefault();
     }
 
     if(!this.isDown(key)){
-      this.downKeys.push(key);
+      this.downKeys[key] = 0;
       this.pressedKeys[key] = true;
       this.emit('pressed', key);
     }
@@ -73,30 +72,37 @@ export default class KeyboardManager extends PIXI.utils.EventEmitter {
       this.pressedKeys[key] = false;
       this.releasedKeys[key] = true;
 
-      let _index = this.downKeys.indexOf(key);
-      if(_index !== -1)this.downKeys.splice(_index, 1);
+      delete this.downKeys[key];
       this.emit('released', key);
     }
   }
 
-  isDown(key: Key){
-    console.log(key, this.downKeys, this.downKeys.includes(key), this.downKeys.indexOf(key) !== -1);
-    return (this.downKeys.indexOf(key) !== -1);
+  downTime(key: Key): number {
+    return this.downKeys[key] || 0;
   }
 
-  isPressed(key: Key){
+  isDown(key: Key): boolean {
+    return this.downKeys.hasOwnProperty(key);
+  }
+
+  isPressed(key: Key): boolean {
     return !!this.pressedKeys[key];
   }
 
-  isReleased(key: Key){
+  isReleased(key: Key): boolean {
     return !!this.releasedKeys[key];
   }
 
-  update(){
+  update(delta: number = 0){
     this.hotKeys.forEach(key => key.update());
 
-    for(let n = 0; n < this.downKeys.length; n++){
-      this.emit('down', this.downKeys[n]);
+    for(let key in this.downKeys) {
+      if (!this.downKeys.hasOwnProperty(key)) {
+        continue;
+      }
+
+      this.downKeys[key] += delta;
+      this.emit('down', key);
     }
 
     this.pressedKeys.length = 0;

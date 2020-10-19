@@ -1,7 +1,7 @@
 {
   "name": "pixi-keyboard",
-  "version": "0.9.4",
-  "description": "pixi-keyboard is a plugin for Pixi.js v3.0.8 or higher to manage the keyboard events easily.",
+  "version": "1.0.0",
+  "description": "pixi-keyboard is a plugin for Pixi.js to manage the keyboard events easily.",
   "main": "./build/pixi-keyboard.js",
   "author": "Nazariglez <nazari.nz@gmail.com> (http://www.nazariglez.com)",
   "license": "MIT",
@@ -21,7 +21,6 @@
     "build": "NODE_ENV=production webpack --progress --colors"
   },
   "devDependencies": {
-    "lodash": "^4.17.14",
     "pixi.js": "^5.0.4",
     "ts-loader": "^6.0.4",
     "typescript": "^3.5.3",

@@ -1,4 +1,5 @@
 import * as PIXI from 'pixi.js';
+import HotKey from './HotKey';
 import Key from "./Key";
 export default class KeyboardManager extends PIXI.utils.EventEmitter {
     isEnabled: boolean;
@@ -15,10 +16,11 @@ export default class KeyboardManager extends PIXI.utils.EventEmitter {
     setPreventDefault(key: any, value?: boolean): void;
     _onKeyDown(evt: any): void;
     _onKeyUp(evt: any): void;
+    downTime(key: Key): number;
     isDown(key: Key): boolean;
     isPressed(key: Key): boolean;
     isReleased(key: Key): boolean;
-    update(): void;
-    getHotKey(key: Key): any;
+    update(delta?: number): void;
+    getHotKey(key: Key): HotKey;
     removeHotKey(key: Key): void;
 }
