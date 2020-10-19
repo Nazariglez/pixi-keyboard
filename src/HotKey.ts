@@ -1,28 +1,27 @@
 import Key from './Key';
+import KeyboardManager from "./KeyboardManager";
 
 export default class HotKey {
-  constructor(key, manager){
-    this.key = key;
-    this.manager = manager;
-    this.isPressed = false;
-    this.isDown = false;
-    this.isReleased = false;
+  isPressed: boolean = false;
+  isDown: boolean = false;
+  isReleased: boolean = false;
 
-    this.crtl = false;
-    this.shift = false;
-    this.alt = false;
-  }
+  ctrl: boolean = false;
+  shift: boolean = false;
+  alt: boolean = false;
 
-  update(){
+  constructor(public key: Key, public manager: KeyboardManager){}
+
+  update() {
     this.isDown = this.manager.isDown(this.key);
     this.isPressed = this.manager.isPressed(this.key);
     this.isReleased = this.manager.isReleased(this.key);
-    this.crtl = this.manager.isDown(Key.CTRL);
+    this.ctrl = this.manager.isDown(Key.CTRL);
     this.shift = this.manager.isDown(Key.SHIFT);
     this.alt = this.manager.isDown(Key.ALT);
   }
 
-  remove(){
+  remove() {
     this.manager.removeHotKey(this.key);
   }
 }

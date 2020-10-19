@@ -17,19 +17,15 @@
   },
   "scripts": {
     "prepublish": "npm run build",
-    "dev": "webpack --config webpack.config.js --progress --inline --colors --watch",
-    "build": "NODE_ENV=production webpack --config webpack.config.js --progress --colors -p"
+    "dev": "webpack --progress --colors --watch",
+    "build": "NODE_ENV=production webpack --progress --colors"
   },
   "devDependencies": {
-    "babel-core": "^6.3.17",
-    "babel-loader": "^6.2.0",
-    "babel-preset-es2015": "^6.3.13",
-    "babel-preset-stage-0": "^6.3.13",
-    "babel-runtime": "^6.3.13",
-    "brfs": "^1.4.1",
-    "json-loader": "^0.5.4",
-    "pixi.js": "^3.0.8",
-    "transform-loader": "^0.2.3",
-    "webpack": "^1.12.9"
+    "lodash": "^4.17.14",
+    "pixi.js": "^5.0.4",
+    "ts-loader": "^6.0.4",
+    "typescript": "^3.5.3",
+    "webpack": "^4.35.3",
+    "webpack-cli": "^3.3.5"
   }
 }

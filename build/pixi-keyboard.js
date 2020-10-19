@@ -1,2 +1,434 @@
-!function(e){function t(s){if(n[s])return n[s].exports;var i=n[s]={exports:{},id:s,loaded:!1};return e[s].call(i.exports,i,i.exports,t),i.loaded=!0,i.exports}var n={};return t.m=e,t.c=n,t.p="",t(0)}([function(e,t,n){e.exports=n(5)},function(e,t,n){"use strict";function s(e){return e&&e.__esModule?e:{"default":e}}function i(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}var r=function(){function e(e,t){for(var n=0;n<t.length;n++){var s=t[n];s.enumerable=s.enumerable||!1,s.configurable=!0,"value"in s&&(s.writable=!0),Object.defineProperty(e,s.key,s)}}return function(t,n,s){return n&&e(t.prototype,n),s&&e(t,s),t}}();Object.defineProperty(t,"__esModule",{value:!0});var o=n(2),a=s(o),u=function(){function e(t,n){i(this,e),this.key=t,this.manager=n,this.isPressed=!1,this.isDown=!1,this.isReleased=!1,this.crtl=!1,this.shift=!1,this.alt=!1}return r(e,[{key:"update",value:function(){this.isDown=this.manager.isDown(this.key),this.isPressed=this.manager.isPressed(this.key),this.isReleased=this.manager.isReleased(this.key),this.crtl=this.manager.isDown(a["default"].CTRL),this.shift=this.manager.isDown(a["default"].SHIFT),this.alt=this.manager.isDown(a["default"].ALT)}},{key:"remove",value:function(){this.manager.removeHotKey(this.key)}}]),e}();t["default"]=u},function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var n={BACKSPACE:8,TAB:9,ENTER:13,SHIFT:16,PAUSE:19,CTRL:17,ALT:18,CAPS_LOCK:20,ESCAPE:27,SPACE:32,PAGE_UP:33,PAGE_DOWN:34,END:35,HOME:36,LEFT:37,UP:38,RIGHT:39,DOWN:40,PRINT_SCREEN:44,INSERT:45,DELETE:46,_0:48,_1:49,_2:50,_3:51,_4:52,_5:53,_6:54,_7:55,_8:56,_9:57,A:65,B:66,C:67,D:68,E:69,F:70,G:71,H:72,I:73,J:74,K:75,L:76,M:77,N:78,O:79,P:80,Q:81,R:82,S:83,T:84,U:85,V:86,W:87,X:88,Y:89,Z:90,CMD:91,CMD_RIGHT:93,NUM_0:96,NUM_1:97,NUM_2:98,NUM_3:99,NUM_4:100,NUM_5:101,NUM_6:102,NUM_7:103,NUM_8:104,NUM_9:105,MULTIPLY:106,ADD:107,SUBTRACT:109,DECIMAL_POINT:110,DIVIDE:111,F1:112,F2:113,F3:114,F4:115,F5:116,F6:117,F7:118,F8:119,F9:120,F10:121,F11:122,F12:123,NUM_LOCK:144,SCROLL_LOCK:145,SEMI_COLON:186,EQUAL:187,COMMA:188,DASH:189,PERIOD:190,FORWARD_SLASH:191,OPEN_BRACKET:219,BACK_SLASH:220,CLOSE_BRACKET:221,SINGLE_QUOTE:222};t["default"]=n},function(e,t){e.exports=PIXI},function(e,t,n){"use strict";function s(e){return e&&e.__esModule?e:{"default":e}}function i(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function r(e,t){if(!e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!t||"object"!=typeof t&&"function"!=typeof t?e:t}function o(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function, not "+typeof t);e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(Object.setPrototypeOf?Object.setPrototypeOf(e,t):e.__proto__=t)}function a(e){return"[object Array]"===Object.prototype.toString.call(e)}var u=function(){function e(e,t){for(var n=0;n<t.length;n++){var s=t[n];s.enumerable=s.enumerable||!1,s.configurable=!0,"value"in s&&(s.writable=!0),Object.defineProperty(e,s.key,s)}}return function(t,n,s){return n&&e(t.prototype,n),s&&e(t,s),t}}();Object.defineProperty(t,"__esModule",{value:!0});var l=n(3),f=s(l),d=n(1),h=s(d),y=function(e){function t(){i(this,t);var e=r(this,Object.getPrototypeOf(t).call(this));return e.isEnabled=!1,e._pressedKeys=[],e._releasedKeys=[],e._downKeys=[],e._hotKeys=[],e._preventDefaultKeys=[],e}return o(t,e),u(t,[{key:"enable",value:function(){this.isEnabled||(this.isEnabled=!0,this._enableEvents())}},{key:"_enableEvents",value:function(){window.addEventListener("keydown",this._onKeyDown.bind(this),!0),window.addEventListener("keyup",this._onKeyUp.bind(this),!0)}},{key:"disable",value:function(){this.isEnabled&&(this.isEnabled=!1,this._disableEvents())}},{key:"_disableEvents",value:function(){window.removeEventListener("keydown",this._onKeyDown,!0),window.removeEventListener("keyup",this._onKeyUp,!0)}},{key:"setPreventDefault",value:function(e){var t=arguments.length<=1||void 0===arguments[1]?!0:arguments[1];if(a(e))for(var n=0;n<e.length;n++)this._preventDefaultKeys[e[n]]=t;else this._preventDefaultKeys[e]=t}},{key:"_onKeyDown",value:function(e){var t=e.which||e.keyCode;this._preventDefaultKeys[t]&&e.preventDefault(),this.isDown(t)||(this._downKeys.push(t),this._pressedKeys[t]=!0,this.emit("pressed",t))}},{key:"_onKeyUp",value:function(e){var t=e.which||e.keyCode;if(this._preventDefaultKeys[t]&&e.preventDefault(),this.isDown(t)){this._pressedKeys[t]=!1,this._releasedKeys[t]=!0;var n=this._downKeys.indexOf(t);-1!==n&&this._downKeys.splice(n,1),this.emit("released",t)}}},{key:"isDown",value:function(e){return-1!==this._downKeys.indexOf(e)}},{key:"isPressed",value:function(e){return!!this._pressedKeys[e]}},{key:"isReleased",value:function(e){return!!this._releasedKeys[e]}},{key:"update",value:function(){for(var e in this._hotKeys)this._hotKeys[e].update();for(var t=0;t<this._downKeys.length;t++)this.emit("down",this._downKeys[t]);this._pressedKeys.length=0,this._releasedKeys.length=0}},{key:"getHotKey",value:function(e){var t=this._hotKeys[e]||new h["default"](e,this);return this._hotKeys[e]=t,t}},{key:"removeHotKey",value:function(e){this._hotKeys[e]&&delete this._hotKeys[e]}}]),t}(f["default"].utils.EventEmitter);t["default"]=y},function(e,t,n){"use strict";function s(e){return e&&e.__esModule?e:{"default":e}}Object.defineProperty(t,"__esModule",{value:!0});var i=n(3),r=s(i),o=n(4),a=s(o),u=n(1),l=s(u),f=n(2),d=s(f),h={KeyboardManager:a["default"],Key:d["default"],HotKey:l["default"]};if(!r["default"].keyboard){var y=new a["default"];y.enable(),r["default"].keyboard=h,r["default"].keyboardManager=y}t["default"]=h}]);
+var keyboard =
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ "./src/HotKey.ts":
+/*!***********************!*\
+  !*** ./src/HotKey.ts ***!
+  \***********************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var Key_1 = __webpack_require__(/*! ./Key */ "./src/Key.ts");
+var HotKey = /** @class */ (function () {
+    function HotKey(key, manager) {
+        this.key = key;
+        this.manager = manager;
+        this.isPressed = false;
+        this.isDown = false;
+        this.isReleased = false;
+        this.ctrl = false;
+        this.shift = false;
+        this.alt = false;
+    }
+    HotKey.prototype.update = function () {
+        this.isDown = this.manager.isDown(this.key);
+        this.isPressed = this.manager.isPressed(this.key);
+        this.isReleased = this.manager.isReleased(this.key);
+        this.ctrl = this.manager.isDown(Key_1.default.CTRL);
+        this.shift = this.manager.isDown(Key_1.default.SHIFT);
+        this.alt = this.manager.isDown(Key_1.default.ALT);
+    };
+    HotKey.prototype.remove = function () {
+        this.manager.removeHotKey(this.key);
+    };
+    return HotKey;
+}());
+exports.default = HotKey;
+
+
+/***/ }),
+
+/***/ "./src/Key.ts":
+/*!********************!*\
+  !*** ./src/Key.ts ***!
+  \********************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var Key;
+(function (Key) {
+    Key[Key["BACKSPACE"] = 8] = "BACKSPACE";
+    Key[Key["TAB"] = 9] = "TAB";
+    Key[Key["ENTER"] = 13] = "ENTER";
+    Key[Key["SHIFT"] = 16] = "SHIFT";
+    Key[Key["PAUSE"] = 19] = "PAUSE";
+    Key[Key["CTRL"] = 17] = "CTRL";
+    Key[Key["ALT"] = 18] = "ALT";
+    Key[Key["CAPS_LOCK"] = 20] = "CAPS_LOCK";
+    Key[Key["ESCAPE"] = 27] = "ESCAPE";
+    Key[Key["SPACE"] = 32] = "SPACE";
+    Key[Key["PAGE_UP"] = 33] = "PAGE_UP";
+    Key[Key["PAGE_DOWN"] = 34] = "PAGE_DOWN";
+    Key[Key["END"] = 35] = "END";
+    Key[Key["HOME"] = 36] = "HOME";
+    Key[Key["LEFT"] = 37] = "LEFT";
+    Key[Key["UP"] = 38] = "UP";
+    Key[Key["RIGHT"] = 39] = "RIGHT";
+    Key[Key["DOWN"] = 40] = "DOWN";
+    Key[Key["PRINT_SCREEN"] = 44] = "PRINT_SCREEN";
+    Key[Key["INSERT"] = 45] = "INSERT";
+    Key[Key["DELETE"] = 46] = "DELETE";
+    Key[Key["_0"] = 48] = "_0";
+    Key[Key["_1"] = 49] = "_1";
+    Key[Key["_2"] = 50] = "_2";
+    Key[Key["_3"] = 51] = "_3";
+    Key[Key["_4"] = 52] = "_4";
+    Key[Key["_5"] = 53] = "_5";
+    Key[Key["_6"] = 54] = "_6";
+    Key[Key["_7"] = 55] = "_7";
+    Key[Key["_8"] = 56] = "_8";
+    Key[Key["_9"] = 57] = "_9";
+    Key[Key["A"] = 65] = "A";
+    Key[Key["B"] = 66] = "B";
+    Key[Key["C"] = 67] = "C";
+    Key[Key["D"] = 68] = "D";
+    Key[Key["E"] = 69] = "E";
+    Key[Key["F"] = 70] = "F";
+    Key[Key["G"] = 71] = "G";
+    Key[Key["H"] = 72] = "H";
+    Key[Key["I"] = 73] = "I";
+    Key[Key["J"] = 74] = "J";
+    Key[Key["K"] = 75] = "K";
+    Key[Key["L"] = 76] = "L";
+    Key[Key["M"] = 77] = "M";
+    Key[Key["N"] = 78] = "N";
+    Key[Key["O"] = 79] = "O";
+    Key[Key["P"] = 80] = "P";
+    Key[Key["Q"] = 81] = "Q";
+    Key[Key["R"] = 82] = "R";
+    Key[Key["S"] = 83] = "S";
+    Key[Key["T"] = 84] = "T";
+    Key[Key["U"] = 85] = "U";
+    Key[Key["V"] = 86] = "V";
+    Key[Key["W"] = 87] = "W";
+    Key[Key["X"] = 88] = "X";
+    Key[Key["Y"] = 89] = "Y";
+    Key[Key["Z"] = 90] = "Z";
+    Key[Key["CMD"] = 91] = "CMD";
+    Key[Key["CMD_RIGHT"] = 93] = "CMD_RIGHT";
+    Key[Key["NUM_0"] = 96] = "NUM_0";
+    Key[Key["NUM_1"] = 97] = "NUM_1";
+    Key[Key["NUM_2"] = 98] = "NUM_2";
+    Key[Key["NUM_3"] = 99] = "NUM_3";
+    Key[Key["NUM_4"] = 100] = "NUM_4";
+    Key[Key["NUM_5"] = 101] = "NUM_5";
+    Key[Key["NUM_6"] = 102] = "NUM_6";
+    Key[Key["NUM_7"] = 103] = "NUM_7";
+    Key[Key["NUM_8"] = 104] = "NUM_8";
+    Key[Key["NUM_9"] = 105] = "NUM_9";
+    Key[Key["MULTIPLY"] = 106] = "MULTIPLY";
+    Key[Key["ADD"] = 107] = "ADD";
+    Key[Key["SUBTRACT"] = 109] = "SUBTRACT";
+    Key[Key["DECIMAL_POINT"] = 110] = "DECIMAL_POINT";
+    Key[Key["DIVIDE"] = 111] = "DIVIDE";
+    Key[Key["F1"] = 112] = "F1";
+    Key[Key["F2"] = 113] = "F2";
+    Key[Key["F3"] = 114] = "F3";
+    Key[Key["F4"] = 115] = "F4";
+    Key[Key["F5"] = 116] = "F5";
+    Key[Key["F6"] = 117] = "F6";
+    Key[Key["F7"] = 118] = "F7";
+    Key[Key["F8"] = 119] = "F8";
+    Key[Key["F9"] = 120] = "F9";
+    Key[Key["F10"] = 121] = "F10";
+    Key[Key["F11"] = 122] = "F11";
+    Key[Key["F12"] = 123] = "F12";
+    Key[Key["NUM_LOCK"] = 144] = "NUM_LOCK";
+    Key[Key["SCROLL_LOCK"] = 145] = "SCROLL_LOCK";
+    Key[Key["SEMI_COLON"] = 186] = "SEMI_COLON";
+    Key[Key["EQUAL"] = 187] = "EQUAL";
+    Key[Key["COMMA"] = 188] = "COMMA";
+    Key[Key["DASH"] = 189] = "DASH";
+    Key[Key["PERIOD"] = 190] = "PERIOD";
+    Key[Key["FORWARD_SLASH"] = 191] = "FORWARD_SLASH";
+    Key[Key["OPEN_BRACKET"] = 219] = "OPEN_BRACKET";
+    Key[Key["BACK_SLASH"] = 220] = "BACK_SLASH";
+    Key[Key["CLOSE_BRACKET"] = 221] = "CLOSE_BRACKET";
+    Key[Key["SINGLE_QUOTE"] = 222] = "SINGLE_QUOTE";
+})(Key || (Key = {}));
+;
+exports.default = Key;
+
+
+/***/ }),
+
+/***/ "./src/KeyboardManager.ts":
+/*!********************************!*\
+  !*** ./src/KeyboardManager.ts ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var PIXI = __webpack_require__(/*! pixi.js */ "pixi.js");
+var HotKey_1 = __webpack_require__(/*! ./HotKey */ "./src/HotKey.ts");
+var KeyboardManager = /** @class */ (function (_super) {
+    __extends(KeyboardManager, _super);
+    function KeyboardManager() {
+        var _this = _super.call(this) || this;
+        _this.isEnabled = false;
+        _this.pressedKeys = [];
+        _this.releasedKeys = [];
+        _this.downKeys = [];
+        _this.hotKeys = [];
+        _this.preventDefaultKeys = [];
+        return _this;
+    }
+    KeyboardManager.prototype.enable = function () {
+        if (!this.isEnabled) {
+            this.isEnabled = true;
+            this._enableEvents();
+        }
+    };
+    KeyboardManager.prototype._enableEvents = function () {
+        window.addEventListener('keydown', this._onKeyDown.bind(this), true);
+        window.addEventListener('keyup', this._onKeyUp.bind(this), true);
+    };
+    KeyboardManager.prototype.disable = function () {
+        if (this.isEnabled) {
+            this.isEnabled = false;
+            this._disableEvents();
+        }
+    };
+    KeyboardManager.prototype._disableEvents = function () {
+        window.removeEventListener('keydown', this._onKeyDown, true);
+        window.removeEventListener('keyup', this._onKeyUp, true);
+    };
+    KeyboardManager.prototype.setPreventDefault = function (key, value) {
+        if (value === void 0) { value = true; }
+        if (_isArray(key)) {
+            for (var i = 0; i < key.length; i++) {
+                this.preventDefaultKeys[key[i]] = value;
+            }
+        }
+        else {
+            this.preventDefaultKeys[key] = value;
+        }
+    };
+    KeyboardManager.prototype._onKeyDown = function (evt) {
+        var key = evt.which || evt.keyCode;
+        console.log(key);
+        if (this.preventDefaultKeys[key]) {
+            evt.preventDefault();
+        }
+        if (!this.isDown(key)) {
+            this.downKeys.push(key);
+            this.pressedKeys[key] = true;
+            this.emit('pressed', key);
+        }
+    };
+    KeyboardManager.prototype._onKeyUp = function (evt) {
+        var key = evt.which || evt.keyCode;
+        if (this.preventDefaultKeys[key]) {
+            evt.preventDefault();
+        }
+        if (this.isDown(key)) {
+            this.pressedKeys[key] = false;
+            this.releasedKeys[key] = true;
+            var _index = this.downKeys.indexOf(key);
+            if (_index !== -1)
+                this.downKeys.splice(_index, 1);
+            this.emit('released', key);
+        }
+    };
+    KeyboardManager.prototype.isDown = function (key) {
+        console.log(key, this.downKeys, this.downKeys.includes(key), this.downKeys.indexOf(key) !== -1);
+        return (this.downKeys.indexOf(key) !== -1);
+    };
+    KeyboardManager.prototype.isPressed = function (key) {
+        return !!this.pressedKeys[key];
+    };
+    KeyboardManager.prototype.isReleased = function (key) {
+        return !!this.releasedKeys[key];
+    };
+    KeyboardManager.prototype.update = function () {
+        this.hotKeys.forEach(function (key) { return key.update(); });
+        for (var n = 0; n < this.downKeys.length; n++) {
+            this.emit('down', this.downKeys[n]);
+        }
+        this.pressedKeys.length = 0;
+        this.releasedKeys.length = 0;
+    };
+    KeyboardManager.prototype.getHotKey = function (key) {
+        var hotKey = this.hotKeys[key] || new HotKey_1.default(key, this);
+        this.hotKeys[key] = hotKey;
+        return hotKey;
+    };
+    KeyboardManager.prototype.removeHotKey = function (key) {
+        if (this.hotKeys[key]) {
+            delete this.hotKeys[key];
+        }
+    };
+    return KeyboardManager;
+}(PIXI.utils.EventEmitter));
+exports.default = KeyboardManager;
+function _isArray(obj) {
+    return Object.prototype.toString.call(obj) === "[object Array]";
+}
+
+
+/***/ }),
+
+/***/ "./src/main.ts":
+/*!*********************!*\
+  !*** ./src/main.ts ***!
+  \*********************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var PIXI = __webpack_require__(/*! pixi.js */ "pixi.js");
+var KeyboardManager_1 = __webpack_require__(/*! ./KeyboardManager */ "./src/KeyboardManager.ts");
+var HotKey_1 = __webpack_require__(/*! ./HotKey */ "./src/HotKey.ts");
+var Key_1 = __webpack_require__(/*! ./Key */ "./src/Key.ts");
+var keyboard = {
+    KeyboardManager: KeyboardManager_1.default,
+    Key: Key_1.default,
+    HotKey: HotKey_1.default
+};
+var AnyPIXI = PIXI;
+if (!AnyPIXI.keyboard) {
+    var keyboardManager = new KeyboardManager_1.default();
+    keyboardManager.enable();
+    AnyPIXI.keyboard = keyboard;
+    AnyPIXI.keyboardManager = keyboardManager;
+}
+exports.default = keyboard;
+
+
+/***/ }),
+
+/***/ 0:
+/*!***************************!*\
+  !*** multi ./src/main.ts ***!
+  \***************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! ./src/main.ts */"./src/main.ts");
+
+
+/***/ }),
+
+/***/ "pixi.js":
+/*!***********************!*\
+  !*** external "PIXI" ***!
+  \***********************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = PIXI;
+
+/***/ })
+
+/******/ });
 //# sourceMappingURL=pixi-keyboard.js.map
