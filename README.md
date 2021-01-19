@@ -44,23 +44,23 @@ PIXI.keyboardManager.on('released', function(key){
 
 ### Check the state for one key
 ```js
-if(PIXI.keyboardManager.isPressed(PIXI.Key.CTRL)){
+if(PIXI.keyboardManager.isPressed(PIXI.keyboard.Key.CTRL)){
   console.log('Control key is pressed');
 }
 
-if(PIXI.keyboardManager.isDown(PIXI.Key.CTRL)){
+if(PIXI.keyboardManager.isDown(PIXI.keyboard.Key.CTRL)){
   console.log('Control key is down');
 }
 
-if(PIXI.keyboardManager.isReleased(PIXI.Key.CTRL)){
+if(PIXI.keyboardManager.isReleased(PIXI.keyboard.Key.CTRL)){
   console.log('Control key is released');
 }
 ```
 
 ### Using HotKeys
 ```js
-var shoot = PIXI.keyboardManager.getHotKey(PIXI.Key.SPACE);
-var reload = PIXI.keyboardManager.getHotKey(PIXI.Key.R);
+var shoot = PIXI.keyboardManager.getHotKey(PIXI.keyboard.Key.SPACE);
+var reload = PIXI.keyboardManager.getHotKey(PIXI.keyboard.Key.R);
 
 function animate(){
   window.requestAnimationFrame(animate);
